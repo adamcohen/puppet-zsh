@@ -44,7 +44,7 @@ define zsh::install($path = '/usr/bin/zsh') {
     path    => '/bin:/usr/bin',
     cwd     => "/home/$name",
     user    => $name,
-    command => "git clone http://github.com/breidh/oh-my-zsh.git /home/$name/.oh-my-zsh",
+    command => "git clone https://github.com/breidh/oh-my-zsh.git /home/$name/.oh-my-zsh",
     creates => "/home/$name/.oh-my-zsh",
     require => [Package[$git_package], Package['zsh'], Package['curl']]
   }
