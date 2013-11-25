@@ -1,20 +1,5 @@
 define zsh::install($path = '/usr/bin/zsh') {
 
-  if $operatingsystem == 'CentOS'
-  {
-    $git_package = 'git'
-  }
-  else
-  {
-    $git_package = 'git-core'
-  }
-
-  if(!defined(Package[$git_package])) {
-    package { $git_package:
-      ensure => present,
-    }
-  }
-
   exec { "chsh -s $path $name":
     path    => '/bin:/usr/bin',
     unless  => "grep -E '^${name}.+:${$path}$' /etc/passwd",
@@ -44,10 +29,9 @@ define zsh::install($path = '/usr/bin/zsh') {
     path    => '/bin:/usr/bin',
     cwd     => "/home/$name",
     user    => $name,
-    command => "git clone https://github.com/breidh/oh-my-zsh.git /home/$name/.oh-my-zsh",
+    command => "/usr/local/bin/git clone https://github.com/breidh/oh-my-zsh.git /home/$name/.oh-my-zsh",
     creates => "/home/$name/.oh-my-zsh",
-    require => [Package[$git_package], Package['zsh'], Package['curl']]
+    require => [Package['zsh'], Package['curl']]
   }
 
 }
-
